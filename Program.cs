@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Tree;
+
 class Program {
 
     public static void Main(string[] args) {
-        TupleData();
+        TreeData();
     }
 
     public static void ListData()
@@ -368,7 +370,6 @@ class Program {
             Console.WriteLine();
         }
     }
-
     public static void TupleData(){
         //that used when you want to return multi-data with difference type at the same time
 
@@ -378,5 +379,35 @@ class Program {
         Console.WriteLine("\nId: " + person.Item1);
         Console.WriteLine("Name: " + person.Item2);
         Console.WriteLine("Grade: " + person.Item3 + " / 30.0");
+    }
+
+    public static void TreeData(){
+        var companyTree         = new Tree<string>("CEO");
+        var financeDepartment   = new Node<string>("CFO");
+        var technicalDepartment = new Node<string>("CTO");
+        var marketingDepartment = new Node<string>("CMO");
+
+        companyTree.Root.AddChildren(financeDepartment);
+        companyTree.Root.AddChildren(technicalDepartment);
+        companyTree.Root.AddChildren(marketingDepartment);
+
+        financeDepartment.AddChildren(new Node<string>("Accounting Department"));
+        
+        technicalDepartment.AddChildren(new Node<string>("Software Engineering Department"));
+        technicalDepartment.AddChildren(new Node<string>("Software Testing Department"));
+        technicalDepartment.AddChildren(new Node<string>("Software Designing Department"));
+        technicalDepartment.AddChildren(new Node<string>("Software Deployment Department"));
+
+        marketingDepartment.AddChildren(new Node<string>("Social Media Department"));
+        marketingDepartment.AddChildren(new Node<string>("Sales Department"));
+
+        companyTree.ReplaceNode("Accounting Department", "Finance Department");
+        companyTree.ReplaceNode("Sooftware Deployment Department", "DevOps Department");
+        
+        companyTree.FindNode("Software Deployment Department");
+        companyTree.RemoveNode("Saales Department");
+        
+        Console.WriteLine("\nTree after all operation: \n");
+        companyTree.DisplayTree();
     }
 }
